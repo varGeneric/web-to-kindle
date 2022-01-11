@@ -1,16 +1,10 @@
-const express = require('express');
+//const express = require('express');
 const path = require('path');
 const puppeteer = require('puppeteer');
 const execFile = require('child_process').execFile;
 const fs = require('fs');
 
-const PORT = process.env.PORT || 3000;
-
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', async (req, res) => {
+module.exports = async function (context, req) {
     const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
     await page.setViewport({ width: 600, height: 800 });
@@ -24,13 +18,13 @@ express()
     await convert('/tmp/screenshot.png');
     screenshot = fs.readFileSync('/tmp/screenshot.png');
 
-    res.writeHead(200, {
-      'Content-Type': 'image/png',
-      'Content-Length': screenshot.length,
+    context.res.writeHead(200, {
+     'Content-Type': 'image/png',
+     'Content-Length': screenshot.length,
     });
-    return res.end(screenshot);
-  })
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+    return context.res.end(screenshot);
+  }
+
 
 
 function convert(filename) {
