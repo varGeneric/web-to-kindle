@@ -10,7 +10,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "puppeteer": "^5.4.1"
+    "puppeteer": "^5.4.1",
+    "sharp": "^0.29.3"
   },
   "repository": {
     "type": "git",
