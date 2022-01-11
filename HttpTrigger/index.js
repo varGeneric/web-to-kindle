@@ -6,9 +6,9 @@ module.exports = async function (context, req) {
     const page = await browser.newPage();
     await page.setViewport({ width: 600, height: 800 });
     await page.goto(process.env.SCREENSHOT_URL || 'https://darksky.net/details/40.7127,-74.0059/2021-1-6/us12/en');
-    await page.screenshot({
-      path: '/tmp/screenshot.png',
-    });
+    // await page.screenshot({
+    //   path: '/tmp/screenshot.png',
+    // });
     const screenshotBuffer = 
         await page.screenshot({ fullPage: true });
 
@@ -18,6 +18,7 @@ module.exports = async function (context, req) {
         await sharp(screenshotBuffer)
           .grayscale()
           .toColourspace('grey16')
+          .toBuffer() ;
 
 
     // await convert('/tmp/screenshot.png');
