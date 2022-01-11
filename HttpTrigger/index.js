@@ -8,13 +8,13 @@ module.exports = async function (context, req) {
     await page.setViewport({ width: 600, height: 800 });
     await page.goto(process.env.SCREENSHOT_URL || 'https://darksky.net/details/40.7127,-74.0059/2021-1-6/us12/en');
     await page.screenshot({
-      path: 'd:\\local\\screenshot.png',
+      path: '/tmp/screenshot.png',
     });
 
     await browser.close();
 
-    await convert('d:\\local\\screenshot.png');
-    screenshot = fs.readFileSync('d:\\local\\screenshot.png');
+    await convert('/tmp/screenshot.png');
+    screenshot = fs.readFileSync('/tmp/screenshot.png');
 
     context.res.writeHead(200, {
      'Content-Type': 'image/png',
